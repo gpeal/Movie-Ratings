@@ -1,32 +1,16 @@
-import requests
-import json
-import metacritic
+class BaseAdapter(object):
+    """Base Adapter
 
-# uses this api: http://imdbapi.org/
-def get_movies_imdb(title):
-    r = requests.get('http://imdbapi.org/?q=%22' + title + '%22')
-    movies = json.loads(r.text)
-    if movies:
-        return movies
-    else:
-        raise LookupError(title + ' not found in IMDb')
+    Interface to implement movie database adapters.
 
-def get_movie_title_imdb(movie):
-    return movie['title']
+    """
+    def __init__(self, name):
+        self.name = name
 
-def get_movie_rating_imdb(movie):
-    return movie['rating']
+    def get_score(self, title):
+        """Get Score
 
-def get_movies_metacritic(title):
-    meta = metacritic.Metacritic()
-    movies = meta.search(title)
-    if movies:
-        return movies
-    else:
-        raise LookupError(title + ' not found in metacritic')
+        Returns a list of dictionaries containing 'title' and 'score' of the top 5 movie hits.
 
-def get_movie_title_metacritic(movie):
-    return movie.title
-
-def get_movie_rating_metacritic(movie):
-    return movie.metascore
+        """
+        raise NotImplementedError('Interface not defined')
