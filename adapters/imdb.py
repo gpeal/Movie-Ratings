@@ -15,6 +15,8 @@ class IMDbAdapter(Adapter):
     title = title.replace('-', '')
     r = requests.get('http://imdbapi.org/?q=%22' + title + '%22&limit=100')
     movies = json.loads(r.text)
+    if 'code' in movies.keys() and movies['code'] == 404:
+      raise FilmNotFoundError(title + ' not found on IMDb')
     movies = [movie for movie in movies if (movie['title'].replace('-', '').lower() == title.lower())]
     if movies:
       # make sure the movie has a rating (it may not like in the case of '21 And Over')
