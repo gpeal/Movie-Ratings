@@ -4,7 +4,7 @@ from adapters import Adapter, FilmNotFoundError
 
 class IMDbAdapter(Adapter):
   def get_similar_film_titles(self, title):
-    r = requests.get('http://imdbapi.org/?q=%22' + title + '%22')
+    r = requests.get('http://imdbapi.org/?q=%22' + title + '%22&limit=5')
     movies = json.loads(r.text)
     if movies:
       return [movie['title'] for movie in movies[:5]]
@@ -13,7 +13,7 @@ class IMDbAdapter(Adapter):
 
   def get_film_score(self, title):
     title = title.replace('-', '')
-    r = requests.get('http://imdbapi.org/?q=%22' + title + '%22')
+    r = requests.get('http://imdbapi.org/?q=%22' + title + '%22&limit=100')
     movies = json.loads(r.text)
     movies = [movie for movie in movies if (movie['title'].replace('-', '').lower() == title.lower())]
     if movies:
