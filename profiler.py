@@ -1,4 +1,7 @@
 from adapters import FilmNotFoundError
+from adapters.imdb import IMDbAdapter
+from adapters.rotten_tomatoes import RTAdapter
+from adapters.metacritic import MetacriticAdapter
 
 
 class FilmProfile(object):
@@ -10,9 +13,15 @@ class FilmProfile(object):
 	def __init__(self, film):
 		self.film = film
 		self.scores = []
-	
+
 	def add_score(self, backend, score):
 		self.scores.append((backend, score))
+
+	def __repr__(self):
+		score_table = '\nResults:\n'
+		for score in self.scores:
+			score_table += '%s: %s\n' % (score[0], score[1])
+		return score_table
 
 
 def create_profile(film_title, adapters, adapter_for_title=None, use_given_title=False):
@@ -50,13 +59,14 @@ def create_profile(film_title, adapters, adapter_for_title=None, use_given_title
 	return profile
 
 
-def prompt_user_for_title_choice(film_titles):
+def prompt_user_for_title_choice(film_title, film_titles):
 	"""Prompt User For Title Choice
 
 	show user list of title matches, and get input choice.
-	
+
 	"""
 	while True:
+		print 'Title: %s' % (film_title)
 		# Print choice prompt
 		for i, title in enumerate(film_titles):
 			print '%s: %s' % (i+1, title)
@@ -77,7 +87,7 @@ def prompt_user_for_title_choice(film_titles):
 			return None
 		else:
 			return film_titles[choice-1]
-	
+
 
 def get_correct_title(film_title, adapter):
 	"""Get Correct Title
@@ -91,7 +101,14 @@ def get_correct_title(film_title, adapter):
 	if film_title in film_titles:
 		return film_title
 	else:
-		chosen_title = prompt_user_for_title_choice(film_titles)
+		chosen_title = prompt_user_for_title_choice(film_title, film_titles)
 		if not chosen_title:
-			raise Exception('Title not found')
+			raise FilmNotFoundError()
 		return chosen_title
+
+if __name__ == "__main__":
+	imdb = IMDbAdapter()
+	rotten_tomatoes = RTAdapter()
+	metacritic = MetacriticAdapter()
+	profile = create_profile("Princess Bride", [metacritic, imdb, rotten_tomatoes])
+	print str(profile)
