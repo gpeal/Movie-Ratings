@@ -17,7 +17,11 @@ class IMDbAdapter(Adapter):
     movies = json.loads(r.text)
     movies = [movie for movie in movies if (movie['title'].replace('-', '').lower() == title.lower())]
     if movies:
-      return movies[0]['rating'] / 10.0
+      # make sure the movie has a rating (it may not like in the case of '21 And Over')
+      if 'rating' in movies[0].keys():
+        return movies[0]['rating'] / 10.0
+      else:
+        raise FilmNotFoundError(title + ' has no rating on IMDb')
     else:
       raise FilmNotFoundError(title + ' not found on IMDb')
 
