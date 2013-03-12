@@ -29,7 +29,8 @@ class RTAdapter(Adapter):
         # Get films
         films = self.rt.search(film_title)
         # Find film in recieved list
-        titles = [f['title'] for f in films]
+        titles = [f['title'].replace('-', '').lower() for f in films]
+        film_title = film_title.replace('-', '').lower()
         if film_title in titles:
             film = films[titles.index(film_title)]
         # Raise error if not found
