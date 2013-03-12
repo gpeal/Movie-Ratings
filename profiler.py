@@ -28,7 +28,7 @@ class FilmProfile(object):
 		return dictionary
 
 	def __repr__(self):
-		score_table = '\nResults:\n'
+		score_table = '\n%s Results:\n' % self.film
 		for score in self.scores:
 			score_table += '%s: %s\n' % (score[0], score[1])
 		return score_table
