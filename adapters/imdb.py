@@ -2,7 +2,7 @@ import requests
 import json
 from adapters import Adapter, FilmNotFoundError
 
-class IMDbAdapter(object):
+class IMDbAdapter(Adapter):
   def get_similar_film_titles(self, title):
     r = requests.get('http://imdbapi.org/?q=%22' + title + '%22')
     movies = json.loads(r.text)
@@ -23,5 +23,3 @@ class IMDbAdapter(object):
 
   def __repr__(self):
     return 'IMDb'
-
-Adapter.register(IMDbAdapter)

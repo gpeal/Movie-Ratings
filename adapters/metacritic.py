@@ -1,7 +1,7 @@
 from metacritic_lib import Metacritic
 from adapters import Adapter, FilmNotFoundError
 
-class MetacriticAdapter(object):
+class MetacriticAdapter(Adapter):
   def get_similar_film_titles(self, title):
     meta = Metacritic()
     movies = meta.search(title, 'movie')
@@ -21,5 +21,3 @@ class MetacriticAdapter(object):
 
   def __repr__(self):
     return 'Metacritic'
-
-Adapter.register(MetacriticAdapter)
