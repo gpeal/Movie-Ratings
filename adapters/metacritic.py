@@ -13,7 +13,7 @@ class MetacriticAdapter(Adapter):
   def get_film_score(self, title):
     meta = Metacritic()
     movies = meta.search(title, 'movie')
-    movies = [movie for movie in movies if movie.title == title][0]
+    movies = [movie for movie in movies if movie.title.lower() == title.lower()][0]
     if movies:
       return float(movies.metascore) / 100.0
     else:

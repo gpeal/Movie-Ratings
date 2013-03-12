@@ -3,6 +3,8 @@ from adapters.imdb import IMDbAdapter
 from adapters.rotten_tomatoes import RTAdapter
 from adapters.metacritic import MetacriticAdapter
 
+import csv
+
 
 class FilmProfile(object):
 	"""Film Profile
@@ -17,12 +19,19 @@ class FilmProfile(object):
 	def add_score(self, backend, score):
 		self.scores.append((backend, score))
 
+	def get_score(self, backend):
+		return [score[1] for score in self.scores if score[0] == backend][0]
+
+	def to_dict(self):
+		dictionary = dict(self.scores)
+		dictionary['Title'] = self.film
+		return dictionary
+
 	def __repr__(self):
 		score_table = '\nResults:\n'
 		for score in self.scores:
 			score_table += '%s: %s\n' % (score[0], score[1])
 		return score_table
-
 
 def create_profile(film_title, adapters, adapter_for_title=None, use_given_title=False):
 	"""Create Profile
@@ -110,5 +119,14 @@ if __name__ == "__main__":
 	imdb = IMDbAdapter()
 	rotten_tomatoes = RTAdapter()
 	metacritic = MetacriticAdapter()
-	profile = create_profile("Princess Bride", [metacritic, imdb, rotten_tomatoes])
-	print str(profile)
+
+	with open('movies.csv', 'rbU') as csv_input_file:
+		with open('movies_output.csv', 'wb') as csv_output_file:
+			csv_input = csv.reader(csv_input_file)
+			csv_output = csv.DictWriter(csv_output_file, delimiter=',', fieldnames=['Title', 'IMDb', 'Metacritic', 'Rotten Tomatoes'])
+			csv_output.writeheader()
+			for row in csv_input:
+				profile = create_profile(row[0], [metacritic, imdb, rotten_tomatoes])
+				csv_output.writerow(profile.to_dict())
+				print profile
+

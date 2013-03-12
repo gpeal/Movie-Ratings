@@ -12,8 +12,10 @@ class IMDbAdapter(Adapter):
         raise FilmNotFoundError(title + ' not found on IMDb')
 
   def get_film_score(self, title):
+    title = title.replace('-', '')
     r = requests.get('http://imdbapi.org/?q=%22' + title + '%22')
     movies = json.loads(r.text)
+    movies = [movie for movie in movies if (movie['title'].replace('-', '').lower() == title.lower())]
     if movies:
       return movies[0]['rating'] / 10.0
     else:
