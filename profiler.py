@@ -1,6 +1,7 @@
 from adapters import FilmNotFoundError
 from adapters.imdb import IMDbAdapter
 from adapters.rotten_tomatoes import RTAdapter
+from adapters.metacritic import MetaCriticAdapter
 
 
 class FilmProfile(object):
@@ -101,5 +102,5 @@ def get_correct_title(film_title, adapter):
 if __name__ == "__main__":
 	imdb = IMDbAdapter()
 	rotten_tomatoes = RTAdapter()
-
-	print create_profile("Toy Story", [imdb, rotten_tomatoes])
+	meta_critic = MetaCriticAdapter()
+	print create_profile("Toy Story", [meta_critic])
