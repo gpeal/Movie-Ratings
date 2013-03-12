@@ -1,4 +1,6 @@
 from adapters import FilmNotFoundError
+from adapters.imdb import IMDbAdapter
+from adapters.rotten_tomatoes import RTAdapter
 
 
 class FilmProfile(object):
@@ -10,7 +12,7 @@ class FilmProfile(object):
 	def __init__(self, film):
 		self.film = film
 		self.scores = []
-	
+
 	def add_score(self, backend, score):
 		self.scores.append((backend, score))
 
@@ -54,7 +56,7 @@ def prompt_user_for_title_choice(film_titles):
 	"""Prompt User For Title Choice
 
 	show user list of title matches, and get input choice.
-	
+
 	"""
 	while True:
 		# Print choice prompt
@@ -77,7 +79,7 @@ def prompt_user_for_title_choice(film_titles):
 			return None
 		else:
 			return film_titles[choice-1]
-	
+
 
 def get_correct_title(film_title, adapter):
 	"""Get Correct Title
@@ -95,3 +97,9 @@ def get_correct_title(film_title, adapter):
 		if not chosen_title:
 			raise Exception('Title not found')
 		return chosen_title
+
+if __name__ == "__main__":
+	imdb = IMDbAdapter()
+	rotten_tomatoes = RTAdapter()
+
+	print create_profile("Toy Story", [imdb, rotten_tomatoes])
