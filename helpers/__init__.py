@@ -2,9 +2,9 @@
 
 def safe_find_film(films, title):
 	"""Finds the given film title in the films object"""
-	
+
 	# Setup check arrays
-	titles = [f['title'] for f in films]
+	titles = [f.get('title', None) for f in films]
 	lowercase_titles = [t.lower() for t in titles]
 	# Check simple
 	if title in titles:

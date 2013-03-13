@@ -34,7 +34,10 @@ class RTAdapter(Adapter):
         # Raise error if not found
         if not film:
             raise FilmNotFoundError()
-        # Return film score if found
+        # Check if ratings exists
+        if not 'ratings' in film:
+            return None
+        # Return film score
         normalized_score = film['ratings']['critics_score'] / 100.0
         return normalized_score
 
