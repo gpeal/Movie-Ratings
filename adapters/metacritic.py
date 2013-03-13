@@ -9,12 +9,15 @@ class MetacriticAdapter(Adapter):
     if movies:
       return [movie.title for movie in movies][:5]
     else:
-        raise LookupError(title + ' not found in metacritic')
+        raise FilmNotFoundError(title + ' not found in metacritic')
 
   def get_film_score(self, title):
     meta = Metacritic()
     movies = meta.search(title, 'movie')
     movies = [movie for movie in movies if movie.title.lower() == title.lower()]
+    if not movies:
+      raise FilmNotFoundError(title + ' not found on IMDb')
+
     movie = safe_find_film(movies, title)
 
     if not movie:

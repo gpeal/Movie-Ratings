@@ -21,7 +21,7 @@ class FilmProfile(object):
 	def get_score(self, backend):
 		return [score[1] for score in self.scores if score[0] == backend][0]
 
-	def get_similar_films(self):
+	def get_similar_film_titles(self):
 		# use Rotten Tomatoes similar api to get similar films
 		# NOTE: this isn't in the library so we have to do it manually
 		rt = RTAdapter()
@@ -53,7 +53,10 @@ def create_profile(film_title, adapters, adapter_for_title=None, use_given_title
 		correct_title = film_title
 	else:
 		if adapter_for_title:
-			correct_title =	get_correct_title(film_title, adapter_for_title)
+			try:
+				correct_title =	get_correct_title(film_title, adapter_for_title)
+			except FilmNotFoundError:
+				pass
 		# Iterate through adapters to find correct title
 		else:
 			for adapter in adapters:

@@ -8,6 +8,9 @@ class IMDbAdapter(Adapter):
   def get_similar_film_titles(self, title):
     r = requests.get('http://imdbapi.org/?q=%22' + title + '%22&limit=5')
     movies = json.loads(r.text)
+    # Check if code is 404
+    if isinstance(movies, dict) and movies['code'] == 404:
+      raise FilmNotFoundError(title + ' not found on IMDb')
     if movies:
       return [movie['title'] for movie in movies[:5]]
     else:
