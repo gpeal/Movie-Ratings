@@ -1,0 +1,11 @@
+Title,Rotten Tomatoes,IMDb,Metacritic
+V for Vendetta,0.73,0.82,0.62
+Wreck-it Ralph,0.86,None,0.72
+Tangled,0.9,0.78,0.71
+Wall-E,0.96,None,None
+How to Train Your Dragon,0.98,0.82,0.74
+Looper,0.93,0.79,0.84
+Silver Linings Playbook,0.92,None,0.81
+The Lord of the Rings: The Return of the King,0.94,0.89,0.94
+Django Unchained,0.88,None,0.81
+Monty Python and the Holy Grail,0.95,0.84,None

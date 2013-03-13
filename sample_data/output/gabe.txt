@@ -1,0 +1,11 @@
+Title,Rotten Tomatoes,IMDb,Metacritic
+black swan,0.87,0.81,0.79
+Wreck-it Ralph,0.86,None,0.72
+toy story,1.0,0.83,0.92
+The Lord of the Rings: The Return of the King,0.94,0.89,0.94
+slumdog millionaire,0.94,0.81,0.86
+fight club,0.81,0.89,0.66
+inception,0.86,0.88,0.74
+v for vendetta,0.73,0.82,0.62
+django unchained,0.88,None,0.81
+Gran Torino,0.8,0.83,0.72

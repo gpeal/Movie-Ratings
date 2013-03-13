@@ -1,0 +1,11 @@
+Title,Rotten Tomatoes,IMDb,Metacritic
+Argo,0.96,0.82,0.86
+The Dark Knight Rises,0.87,0.88,0.78
+The Avengers,0.16,0.84,0.69
+The Lord of the Rings: The Return of the King,0.94,0.89,0.94
+Wreck-it Ralph,0.86,None,0.72
+Inception,0.86,0.88,0.74
+Despicable Me,0.81,0.76,0.72
+Zombieland,0.9,0.78,0.73
+Inside Job,0.98,0.82,0.88
+Memento,0.92,0.86,0.8
