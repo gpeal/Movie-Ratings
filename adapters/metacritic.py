@@ -21,7 +21,7 @@ class MetacriticAdapter(Adapter):
     if not found_title:
       raise FilmNotFoundError()
     movie = movies[movie_titles.index(found_title)]
-    return movie.metascore/100.0
+    return float(movie.metascore) / 100.0
 
   def __repr__(self):
     return 'Metacritic'
