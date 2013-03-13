@@ -29,10 +29,12 @@ class RTAdapter(Adapter):
         # Get films
         films = self.rt.search(title)
         # Find film in recieved list
-        film = safe_find_film(films, title)
+        film_titles = [f.get('title', None) for f in films]
+        found_title = safe_find_film(title, film_titles)
         # Raise error if not found
-        if not film:
+        if not found_title:
             raise FilmNotFoundError()
+        film = films[film_titles.index(found_title)]
         return film
 
     def get_film_score(self, title):
