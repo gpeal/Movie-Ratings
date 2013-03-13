@@ -8,7 +8,7 @@ import requests
 class FilmProfile(object):
 	"""Film Profile
 
-	Contains information about how a paricular film performed.
+	Contains information about how a paricular film performed on given backends.
 
 	"""
 	def __init__(self, film):
@@ -21,21 +21,10 @@ class FilmProfile(object):
 	def get_score(self, backend):
 		return [score[1] for score in self.scores if score[0] == backend][0]
 
-	def get_similar_film_titles(self):
-		# use Rotten Tomatoes similar api to get similar films
-		# NOTE: this isn't in the library so we have to do it manually
-		rt = RTAdapter()
-		film = rt.get_film(self.film)
-		similar_films_raw = requests.get('http://api.rottentomatoes.com/api/public/v1.0/movies/' + film['id'] + '/similar.json?apikey=8yvmeqtydvquk9bxv4mvemhm&limit=5').text
-		similar_films = json.loads(similar_films_raw)['movies']
-		return [similar_film['title'] for similar_film in similar_films]
-
-
 	def to_dict(self):
 		dictionary = dict(self.scores)
 		dictionary['Title'] = self.film
 		return dictionary
-
 
 	def __repr__(self):
 		score_table = '\n%s Results:\n' % self.film
@@ -87,12 +76,14 @@ def prompt_user_for_title_choice(film_title, film_titles):
 	show user list of title matches, and get input choice.
 
 	"""
+	# Print title in question
+	print 'Title: %s' % (film_title)
+	# Print choice prompt
+	for i, title in enumerate(film_titles):
+		print '%s: %s' % (i+1, title)
+	print '0: Not listed'
+	# Loop choice mechanism
 	while True:
-		print 'Title: %s' % (film_title)
-		# Print choice prompt
-		for i, title in enumerate(film_titles):
-			print '%s: %s' % (i+1, title)
-		print '0: Not listed'
 		# Get user choice
 		try:
 			choice = int(raw_input('Enter choice: '))
@@ -105,7 +96,7 @@ def prompt_user_for_title_choice(film_title, film_titles):
 			print 'Invalid choice!'
 			continue
 		# Return valid choice
-		if choice == 0:
+		elif choice == 0:
 			return None
 		else:
 			return film_titles[choice-1]
