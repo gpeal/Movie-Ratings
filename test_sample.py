@@ -33,14 +33,15 @@ def create_sample_output(filename):
 	# Write output
 	with open('sample_data/output/' + short_filename, 'w') as f:
 		writer = csv.writer(f)
-		# profile_csv = []
+		headers = ['Title']
+		[headers.append(str(a)) for a in adapters]
+		writer.writerow(headers)
 		for p in profiles:
 			row = []
 			row.append(p.film)
 			for s in p.scores:
 				row.append(str(s[1]))
 			writer.writerow(row)
-			# profile_csv.append(row)
 
 if __name__ == '__main__':
 	print 'Looking for "*.txt" files in folder "sample_data"'
