@@ -1,4 +1,5 @@
 from adapters import FilmNotFoundError
+from helpers import safe_find_film
 
 
 class FilmProfile(object):
@@ -107,11 +108,12 @@ def get_correct_title(film_title, adapter):
 	"""
 	# Get titles from backend
 	film_titles = adapter.get_similar_film_titles(film_title)
-	# Check if there was an exact match
-	if film_title in film_titles:
-		return film_title
+	# Find film
+	found_title = safe_find_film(film_title, film_titles)
+	if found_title:
+		chosen_title = film_title
 	else:
 		chosen_title = prompt_user_for_title_choice(film_title, film_titles)
-		if not chosen_title:
-			raise FilmNotFoundError()
-		return chosen_title
+	if not chosen_title:
+		raise FilmNotFoundError()
+	return chosen_title
