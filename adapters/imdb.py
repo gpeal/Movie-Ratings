@@ -23,14 +23,18 @@ class IMDbAdapter(Adapter):
     # Check if code is 404
     if isinstance(movies, dict) and movies['code'] == 404:
       raise FilmNotFoundError(title + ' not found on IMDb')
-    # Find film in recieved list
-    movie = safe_find_film(movies, title)
+
+    # Find movie
+    movie_titles = [m['title'] for m in movies]
+    found_title = safe_find_film(title, movie_titles)
     # Raise error if not found
-    if not movie:
+    if not found_title:
       raise FilmNotFoundError()
+    movie = movies[movie_titles.index(found_title)]
+
     # Return None if these is no rating
     if not 'rating' in movie:
-      raise FilmNotFoundError()
+      return None
     normalized_score = movie['rating'] / 10.0
     return normalized_score
 
