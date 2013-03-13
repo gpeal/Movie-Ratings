@@ -16,24 +16,27 @@ class RTAdapter(Adapter):
         self.rt = RT(self.config['api_key'])
 
 
-    def get_similar_film_titles(self, film_title):
+    def get_similar_film_titles(self, title):
         # Get films
-        films = self.rt.search(film_title)[:5]
+        films = self.rt.search(title)[:5]
         # Check if results are empty
         if not films:
             raise FilmNotFoundError()
         # Extract titles
         return [film['title'] for film in films]
 
-
-    def get_film_score(self, film_title):
+    def get_film(self, title):
         # Get films
-        films = self.rt.search(film_title)
+        films = self.rt.search(title)
         # Find film in recieved list
-        film = safe_find_film(films, film_title)
+        film = safe_find_film(films, title)
         # Raise error if not found
         if not film:
             raise FilmNotFoundError()
+        return film
+
+    def get_film_score(self, title):
+        film = self.get_film(title)
         # Check if ratings exists
         if not 'ratings' in film:
             return None

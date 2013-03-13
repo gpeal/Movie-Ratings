@@ -1,4 +1,8 @@
 from adapters import FilmNotFoundError
+from adapters.rotten_tomatoes import RTAdapter
+
+import json
+import requests
 
 
 class FilmProfile(object):
@@ -17,10 +21,21 @@ class FilmProfile(object):
 	def get_score(self, backend):
 		return [score[1] for score in self.scores if score[0] == backend][0]
 
+	def get_similar_films(self):
+		# use Rotten Tomatoes similar api to get similar films
+		# NOTE: this isn't in the library so we have to do it manually
+		rt = RTAdapter()
+		film = rt.get_film(self.film)
+		similar_films_raw = requests.get('http://api.rottentomatoes.com/api/public/v1.0/movies/' + film['id'] + '/similar.json?apikey=8yvmeqtydvquk9bxv4mvemhm&limit=5').text
+		similar_films = json.loads(similar_films_raw)['movies']
+		return [similar_film['title'] for similar_film in similar_films]
+
+
 	def to_dict(self):
 		dictionary = dict(self.scores)
 		dictionary['Title'] = self.film
 		return dictionary
+
 
 	def __repr__(self):
 		score_table = '\n%s Results:\n' % self.film
