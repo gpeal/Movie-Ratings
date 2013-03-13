@@ -53,3 +53,8 @@ class FilmNotFoundError(Exception):
 
 	"""
 	pass
+
+# Adjust namespace for easy imports
+from .imdb import *
+from .rotten_tomatoes import *
+from .metacritic import *
