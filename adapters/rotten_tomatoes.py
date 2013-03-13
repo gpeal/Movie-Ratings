@@ -1,6 +1,7 @@
 from rottentomatoes import RT
 
 from . import Adapter, FilmNotFoundError
+from helpers import safe_find_film
 
 class RTAdapter(Adapter):
     """Rotten Tomatoes Adapter
@@ -29,12 +30,9 @@ class RTAdapter(Adapter):
         # Get films
         films = self.rt.search(film_title)
         # Find film in recieved list
-        titles = [f['title'].replace('-', '').lower() for f in films]
-        film_title = film_title.replace('-', '').lower()
-        if film_title in titles:
-            film = films[titles.index(film_title)]
+        film = safe_find_film(films, film_title)
         # Raise error if not found
-        else:
+        if not film:
             raise FilmNotFoundError()
         # Return film score if found
         normalized_score = film['ratings']['critics_score'] / 100.0
