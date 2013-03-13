@@ -31,7 +31,8 @@ def create_sample_output(filename):
 		profiles.append(profile)
 		print profile
 	# Write output
-	with open('sample_data/output/' + short_filename, 'w') as f:
+	print 'Writing film profiles'
+	with open('sample_data/output/' + short_filename[:-3] + 'csv', 'w') as f:
 		writer = csv.writer(f)
 		headers = ['Title']
 		[headers.append(str(a)) for a in adapters]
@@ -42,6 +43,7 @@ def create_sample_output(filename):
 			for s in p.scores:
 				row.append(str(s[1]))
 			writer.writerow(row)
+	print 'Done'
 
 if __name__ == '__main__':
 	print 'Looking for "*.txt" files in folder "sample_data"'
