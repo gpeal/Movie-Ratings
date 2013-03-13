@@ -13,9 +13,9 @@ class MetacriticAdapter(Adapter):
   def get_film_score(self, title):
     meta = Metacritic()
     movies = meta.search(title, 'movie')
-    movies = [movie for movie in movies if movie.title.lower() == title.lower()][0]
+    movies = [movie for movie in movies if movie.title.lower() == title.lower()]
     if movies:
-      return float(movies.metascore) / 100.0
+      return float(movies[0].metascore) / 100.0
     else:
       raise FilmNotFoundError(title + ' not found on IMDb')
 
