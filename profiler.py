@@ -1,8 +1,4 @@
 from adapters import FilmNotFoundError
-from adapters.rotten_tomatoes import RTAdapter
-
-import json
-import requests
 
 
 class FilmProfile(object):
@@ -31,6 +27,7 @@ class FilmProfile(object):
 		for score in self.scores:
 			score_table += '%s: %s\n' % (score[0], score[1])
 		return score_table
+
 
 def create_profile(film_title, adapters, adapter_for_title=None, use_given_title=False):
 	"""Create Profile
