@@ -27,7 +27,7 @@ class IMDbAdapter(Adapter):
       raise FilmNotFoundError()
     # Return None if these is no rating
     if not 'rating' in movie:
-      return None
+      raise FilmNotFoundError()
     normalized_score = movie['rating'] / 10.0
     return normalized_score
 
