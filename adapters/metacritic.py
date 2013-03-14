@@ -1,6 +1,7 @@
 from metacritic_lib import Metacritic
 from adapters import Adapter, FilmNotFoundError
 from helpers import safe_find_film
+import urllib
 
 class MetacriticAdapter(Adapter):
   def get_similar_film_titles(self, title):
@@ -13,7 +14,9 @@ class MetacriticAdapter(Adapter):
 
   def get_film_score(self, title):
     meta = Metacritic()
-    movies = meta.search(title, 'movie')
+    movies = meta.search(urllib.quote(title), 'movie')
+    if not movies:
+      raise FilmNotFoundError()
     # Find movie
     movie_titles = [m.title for m in movies]
     found_title = safe_find_film(title, movie_titles)
