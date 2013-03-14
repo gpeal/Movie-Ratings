@@ -25,7 +25,7 @@ class IMDbAdapter(Adapter):
       raise FilmNotFoundError(title + ' not found on IMDb')
 
     # Find movie
-    movie_titles = [m['title'] for m in movies]
+    movie_titles = [m['title'] for m in movies if 'title' in m]
     found_title = safe_find_film(title, movie_titles)
     # Raise error if not found
     if not found_title:

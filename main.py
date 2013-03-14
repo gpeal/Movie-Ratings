@@ -25,8 +25,17 @@ def get_similar_films(title):
   for film in similar_films:
     new_similar_films.extend(similar.get_similar_film_titles(film))
   similar_films.extend(new_similar_films)
+
   #uniquify the list
-  return unique(similar_films)
+  similar_films = unique(similar_films)
+
+  # remove the original film if it is in the list
+  try:
+      similar_films.remove(title)
+  except ValueError:
+    pass
+
+  return similar_films
 
 
 def prompt_user():
@@ -52,14 +61,26 @@ def prompt_user():
     elif score == 'd':
       break
 
-    #convert the score to a float
+    # convert the score to a float
     while isinstance(score, str):
       try:
+        # if they enter s or d to skip or stop, we need to temporarily convert it to a number
+        # and check it afterwards
+        if score == 's':
+          score = -1
+          break
+        elif score == 'd':
+          score = -2
+          break
         score = float(score)
         if score < 0 or score > 100:
           raise ValueError()
       except ValueError:
         score = raw_input("Enter a valid score between 0 and 100: ")
+    if score == -1:
+      continue
+    elif score == -2:
+      break
 
     profile = profiler.FilmProfile(film)
     profile.add_score('User', score / 100)
