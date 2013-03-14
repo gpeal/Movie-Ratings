@@ -5,3 +5,6 @@
 .ropeproject
 movies.csv
 movies_output.csv
+*.spec
+dist
+build

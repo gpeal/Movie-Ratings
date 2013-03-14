@@ -1,4 +1,4 @@
-from metacritic_lib import Metacritic
+from .metacritic_lib import Metacritic
 from adapters import Adapter, FilmNotFoundError
 from helpers import safe_find_film
 import urllib

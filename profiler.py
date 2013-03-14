@@ -29,6 +29,10 @@ class FilmProfile(object):
 			score_table += '%s: %s\n' % (score[0], score[1])
 		return score_table
 
+	@property
+	def backends(self):
+		return [score[0] for score in self.scores]
+
 
 def create_profile(film_title, adapters, adapter_for_title=None, use_given_title=False):
 	"""Create Profile
